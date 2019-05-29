@@ -1,0 +1,24 @@
+language: go
+
+go:
+  - 1.12.x
+
+env:
+  global:
+    - GO111MODULE=on
+    - GOPROXY=https://proxy.golang.org
+
+cache:
+  directories:
+    - $GOPATH/pkg/mod
+    - $GOPATH/bin
+
+install: true
+
+# Move to $HOME to install golangci-lint globally.
+before_script:
+ - (cd $HOME && go get -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.16.0)
+
+script:
+  - go test -v ./...
+  - golangci-lint -v run
